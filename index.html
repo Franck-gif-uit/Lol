@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Message Anonyme ✨</title>
+  <style>
+    :root {
+      --primary: #6a11cb;
+      --secondary: #2575fc;
+      --bg: linear-gradient(135deg, var(--primary), var(--secondary));
+      --form-bg: rgba(255, 255, 255, 0.2);
+      --text: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: var(--text);
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 2.5em;
+    }
+
+    form {
+      background: var(--form-bg);
+      padding: 30px;
+      border-radius: 15px;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 30px rgba(0,0,0,0.1);
+      width: 90%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    input, textarea {
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      font-size: 1em;
+    }
+
+    button {
+      padding: 12px;
+      background: #00ffcc;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      font-size: 1em;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #00ddb3;
+    }
+
+    .confirmation {
+      margin-top: 15px;
+      color: #00ffcc;
+      font-weight: bold;
+      display: none;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>💬 Envoie un message anonyme</h1>
+  <form id="form">
+    <input type="text" name="nom" placeholder="Ton nom (ou pseudo)" required>
+    <textarea name="message" placeholder="Ton message..." rows="5" required></textarea>
+    <button type="submit">Envoyer</button>
+  </form>
+  <p class="confirmation" id="confirmation">✅ Message envoyé avec succès !</p>
+
+  <script>
+    document.getElementById('form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+      const data = new URLSearchParams(formData);
+      await fetch('/message', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        body: data
+      });
+      document.getElementById('confirmation').style.display = 'block';
+      form.reset();
+    });
+  </script>
+</body>
+</html>
